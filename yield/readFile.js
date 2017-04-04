@@ -1,24 +1,19 @@
+readDir();
 const path = '/home/wandry/Documents';
 const fs = require('fs');
- 
+const fileName = fs.readdirSync(path) 
 
-
-// function Size(){
-// 	fs.stat(file, function(f) {
-// 		return function(err, stats) {
-// 			console.log("Path:", f);
-// 			console.log("Size:", stats["size"]);
-// 		}
-// 	}(file));
-// }
-
-function readDir(){
-	fs.readdir(path, function(err, items) {
-    for (var i=0; i<items.length; i++) {
-        var file = items[i];
-        console.log("List: " + file);
+function *readDir(){
+    for (var i=0; i<fileName.length; i++) {
+        yield fileName[i];
     }
-	});
 }
 
-readDir();
+const read = readDir();
+let currentResult
+
+for(var i = 0; i < fileName.length; i++) {
+    currentResult = read.next()
+    const result = currentResult.value
+    console.log(result);
+}
