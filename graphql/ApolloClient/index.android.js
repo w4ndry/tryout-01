@@ -1,46 +1,46 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, Text } from 'react-native';
-import {
-  ApolloClient,
-  gql,
-  graphql,
-  ApolloProvider,
-  createNetworkInterface
-} from 'react-apollo';
-
-const channelsListQuery = gql`
-   query ChannelsListQuery {
-     channels {
-       id
-       name
-       address
-     }
-   }
- `;
-
-const ChannelsList = ({ data: {loading, error, channels }}) => {
-   channels.map( ch => {<Text>{ch.name}</Text>} ) 
- };
-const ChannelsListWithData = graphql(channelsListQuery)(ChannelsList);
-
-const networkInterface = createNetworkInterface({ 
-  uri: 'http://localhost:3000/graphql',
-});
-const client = new ApolloClient({
-  networkInterface,
-});
+import { AppRegistry, View, Text} from 'react-native';
 
 class Client extends Component {
+  constructor(){
+    super()
+    this.state = {
+      loading: true,
+      data: []
+    }
+  }
+  componentDidMount() {
+    this.getUsers()
+  }
+
+  async getUsers() {
+    try {
+      let response = await fetch('http://10.0.2.2:4040/graphql?query={users{id%20name%20address}}')
+      console.log(response);
+      let results = await response.json();
+      let users = results.data.users
+      console.log('t', users);
+      this.setState({ data: users })
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
    render() {
      return (
-       <ApolloProvider client={client}>
-         <View>
-         <View>
-             <Text>Welcome to Apollo</Text>
-             </View>
-           <ChannelsListWithData />
-         </View>
-       </ApolloProvider>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f9f9f9'}}>
+        <Text>This data is from Graphql server</Text>
+        <View>
+        {this.state.data.map(row => 
+          <View style={{ borderBottomWidth: 1}}>
+            <Text>Id: {row.id}</Text>
+            <Text>Name: {row.name}</Text>
+            <Text>Address: {row.address}</Text>
+          </View>
+        )}
+        </View>
+          
+        </View>
      );
    }
  }
