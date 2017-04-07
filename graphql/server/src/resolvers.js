@@ -1,4 +1,4 @@
-const channels = [{
+const users = [{
   id: 1,
   name: 'Eri',
   address: 'Bandung',
@@ -10,8 +10,8 @@ const channels = [{
 
 export const resolvers = {
   Query: {
-    channels: () => {
-      return channels;
+    users: () => {
+      return users;
     },
   },
 };

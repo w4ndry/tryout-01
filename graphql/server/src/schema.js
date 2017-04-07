@@ -6,7 +6,7 @@ import {
 import { resolvers } from './resolvers';
 
 const typeDefs = `
-type Channel {
+type User {
    id: ID!                # "!" denotes a required field
    name: String
    address: String!
@@ -15,7 +15,7 @@ type Channel {
 # This type specifies the entry points into our API. In this case
 # there is only one - "channels" - which returns a list of channels.
 type Query {
-   channels: [Channel]    # "[]" means this is a list of channels
+   users: [User]    # "[]" means this is a list of channels
 }
 `;
 
